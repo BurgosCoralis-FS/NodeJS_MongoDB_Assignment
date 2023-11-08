@@ -13,11 +13,12 @@ const getAllTeams = async (req,res) => {
     };
 };
 
-const getTeamById = (req, res) => {
+const getTeamById = async (req, res) => {
     const {id} = req.params;
     try{
+        const team = await Teams.findById(id);
         res.status(200).json({
-            id,
+            data: team,
             success: true,
             message: "Team has been retrieved"
         });

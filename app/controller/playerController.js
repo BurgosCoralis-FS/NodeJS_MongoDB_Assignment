@@ -12,11 +12,12 @@ const getAllPlayers = async (req, res) => {
     };
 };
 
-const getPlayerById = (req, res) => {
+const getPlayerById = async (req, res) => {
     const {id} = req.params;
     try {
+        const player = await Players.findById(id);
         res.status(200).json({
-            id,
+            data: player,
             success: true,
             message: "Player has been retrieved"
         });
