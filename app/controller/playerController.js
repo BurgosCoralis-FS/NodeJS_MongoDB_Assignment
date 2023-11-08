@@ -5,8 +5,8 @@ const getAllPlayers = async (req, res) => {
         const players = await Players.find({})
         res.status(200).json({
             data: players,
-            sucess: true, 
-            message: `${req.method} - request to Player endpoint`});
+            success: true, 
+            message: "Players have been retrieved" });
     } catch (error){
         console.log(error);
     };
@@ -17,8 +17,8 @@ const getPlayerById = (req, res) => {
     try {
         res.status(200).json({
             id,
-            sucess: true,
-            message: `${req.method} - request to Player by ID endpoint`
+            success: true,
+            message: "Player has been retrieved"
         });
     } catch(error) {
         console.log(error);
@@ -31,8 +31,9 @@ const createPlayer = async (req, res) => {
         const newPlayer = await Players.create(player);
         console.log("New Player Data>>>", newPlayer);
         res.status(200).json({
-            sucess: true, 
-            message: `${req.method} - request to Player endpoint`});
+            success: true, 
+            message: "Player has been successfully saved" 
+        });
     } catch (error) {
         if (error.name == "ValidationError"){
             console.error("Error Validating!", error);
@@ -53,8 +54,8 @@ const updatePlayer = async (req, res) => {
             { new: true });
         res.status(200).json({
             data: player,
-            sucess: true,
-            message: `${req.method} - request to Player by ID endpoint`
+            success: true,
+            message: "Player has been updated successfully"
         });
     } catch (error) {
         console.log(error);
@@ -70,8 +71,8 @@ const deletePlayer = async (req, res) => {
         )
         res.status(200).json({
             data: player,
-            sucess: true,
-            message: `${req.method} - request to Player by ID endpoint`
+            success: true,
+            message: "Player has been deleted successfully"
         });
     } catch (error) {
         console.log(error);

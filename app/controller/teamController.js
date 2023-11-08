@@ -6,7 +6,7 @@ const getAllTeams = async (req,res) => {
         res.status(200).json({
             data: teams,
             success: true,
-            message: `${req.method} - request to Team endpoint`
+            message: "Teams have been retrieved"
         });
     } catch (error) {
         console.log(error);
@@ -19,7 +19,7 @@ const getTeamById = (req, res) => {
         res.status(200).json({
             id,
             success: true,
-            message: `${req.method} - request to Team by ID endpoint`
+            message: "Team has been retrieved"
         });
     } catch (error) {
         console.log(error);
@@ -33,7 +33,7 @@ const createTeam = async (req,res) => {
         console.log("New Team Data:", newTeam);
         res.status(200).json({
             success: true,
-            message: `${req.method} - request to Team endpoint`
+            message: "Team has been successfully saved"
         });
     } catch (error) {
         if (error.name == "ValidationError"){
@@ -56,7 +56,7 @@ const updateTeam = async (req, res) => {
         res.status(200).json({
             data: team,
             success: true,
-            message: `${req.method} - request to Team by ID endpoint`
+            message: "Team has been updated succesfully"
         });
     } catch (error) {
         console.log(error);
@@ -73,7 +73,7 @@ const deleteTeam = async (req, res) => {
         res.status(200).json({
             data: team,
             success: true,
-            message: `${req.method} - request to Team by ID endpoint`
+            message: "Team has been deleted succesfully"
         });
     } catch (error) {
         console.log(error);
