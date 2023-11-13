@@ -11,6 +11,10 @@ const teamSchema = new mongoose.Schema({
         type: String,
         required: [true, "Where is this team from?"],
         trim: true,
+    },
+    players:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Player"
     }
 },
 { timestamps: true });
