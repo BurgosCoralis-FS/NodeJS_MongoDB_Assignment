@@ -1,9 +1,13 @@
 const Players = require("../models/Players");
 const Messages = require("../messages/messages");
+const { savePlayer, findPlayer } = require("../db/db");
+const { default: mongoose } = require("mongoose");
 
+//Get ALL players
 const getAllPlayers = async (req, res) => {
     try {
         const players = await Players.find({})
+        // .populate("team", "name")
         res.status(200).json({
             data: players,
             success: true, 
@@ -16,12 +20,11 @@ const getAllPlayers = async (req, res) => {
     };
 };
 
+//Get Player by ID
 const getPlayerById = async (req, res) => {
     const {id} = req.params;
     try{
-        await Players.findById(id)
-        .select("name _id")
-        .populate("team", "_id name")
+        findPlayer(id)
         .then(player => {
             if(!player){
                 console.log(player);
@@ -37,9 +40,8 @@ const getPlayerById = async (req, res) => {
                     method: req.method,
                     url: "http://localhost:3000/players/" + id
                 }
-            })
-        })
-        
+                });
+            });
     } catch(err){
         res.stauts(500).json({
             error: {
@@ -49,18 +51,40 @@ const getPlayerById = async (req, res) => {
     }
 };
 
+//Create Player
 const createPlayer = async (req, res) => {
-    const { player } = req.body;
+    const id = new mongoose.Types.ObjectId();
+    const name = req.body.name;
+    const username = req.body.username;
+    const age = req.body.age;
+    const birthday = req.body.birthday;
+    const team = req.body.team;
+    const game = req.body.game;
+    const role = req.body.role;
+    const country = req.body.country;
+
     try {
-        const newPlayer = await Players.create(player);
-        console.log("New Player Data>>>", newPlayer);
-        res.status(200).json({
-            success: true, 
-            message: Messages.player_created,
-            request:{
-                method: req.method
-            }
+        const newPlayer = new Players({
+            _id: id,
+            name: name,
+            username: username,
+            age: age,
+            birthday: birthday,
+            team: team,
+            game: game,
+            role: role,
+            country: country
         });
+        savePlayer(newPlayer)
+        .then(
+            res.status(200).json({
+                success: true, 
+                message: Messages.player_created,
+                request:{
+                    method: req.method
+                }
+            })
+        )
     } catch (error) {
         if (error.name == "ValidationError"){
             console.error("Error Validating!", error);
@@ -72,6 +96,7 @@ const createPlayer = async (req, res) => {
     };
 };
 
+//Update Player by ID
 const updatePlayer = async (req, res) => {
     const {id} = req.params;
     try {
@@ -106,6 +131,7 @@ const updatePlayer = async (req, res) => {
     }
 };
 
+//Delete Player by ID
 const deletePlayer = async (req, res) => {
     const {id} = req.params;
     try{
